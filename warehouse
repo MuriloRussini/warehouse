@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-
+require './app/Core/Helpers.php';
 if (php_sapi_name() !== 'cli') {
     exit;
 }
