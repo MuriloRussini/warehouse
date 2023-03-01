@@ -29,4 +29,39 @@ class Item{
     return $statement->execute($data);
   }
 
+  public function update($data, $type){
+    if($type == 'minus'){
+        $statement = $this->pdo->prepare("UPDATE items SET quantity = quantity - :number, updated_at=now() WHERE sku = :sku");
+    }
+
+    if($type == 'plus'){
+        $statement = $this->pdo->prepare("UPDATE items SET quantity = quantity + :number, updated_at=now() WHERE sku = :sku");
+    }
+
+    if($type == 'equal'){
+        $statement = $this->pdo->prepare("UPDATE items SET quantity = :number, updated_at=now() WHERE sku = :sku");
+    }
+    
+    return $statement->execute($data);
+}
+
+public function search($data, $type){
+  if($type == 'sku'){
+      $statement = $this->pdo->prepare("select * from items WHERE sku=:sku");
+  }
+
+  if($type == 'title'){
+      $statement = $this->pdo->prepare("select * from items WHERE title=:title");
+  }
+
+  if($type == 'company'){
+      $statement = $this->pdo->prepare("select * from items WHERE company=:company");
+  }
+  
+  $statement->execute($data);
+  return $statement->fetchAll(PDO::FETCH_OBJ);
+}
+
+
+
 }
